@@ -98,9 +98,7 @@ export const Ticket = () => {
                         { ticketStatus() }
                     </div>
                     {
-                        isStaff()
-                            ? ""
-                            : <button onClick={deleteTicket}>Delete</button>
+                        isStaff()? <button onClick={deleteTicket}>Delete</button> : ""
                     }
                 </footer>
 

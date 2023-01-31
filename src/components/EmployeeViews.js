@@ -25,7 +25,7 @@ export const EmployeeViews = () => {
             </Route>
 
             <Route exact path="/tickets/:ticketId(\d+)">
-                <Ticket />
+                <Ticket employees={EmployeeList}/>
             </Route>
 
             <Route path="/tickets/create">
