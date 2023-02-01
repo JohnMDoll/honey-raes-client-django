@@ -31,7 +31,10 @@ export const TicketList = () => {
 
     const toShowOrNotToShowTheButton = () => {
         if (isStaff()) {
-            return ""
+            return <>
+                <label>Search Ticket Descriptions: </label>
+                <input className="search" onChange={(e) => {searchTickets(e.target.value) }} placeholder="type search terms here" />
+            </>
         }
         else {
             return <button className="actions__create"
@@ -47,15 +50,25 @@ export const TicketList = () => {
             .catch(() => setOriginal([]))
     }
 
+    const searchTickets = (query) => {
+        fetchIt(`http://localhost:8000/tickets?includes=${query}`)
+            .then((tickets) => {
+                setOriginal(tickets)
+            })
+            .catch(() => setOriginal([]))
+    }
+
     return <>
         <div>
+            <button onClick={() => filterTickets("unclaimed")}>Show Unclaimed</button>
+            <button onClick={() => filterTickets("inprogress")}>Show In Progress</button>
             <button onClick={() => filterTickets("done")}>Show Done</button>
             <button onClick={() => filterTickets("all")}>Show All</button>
         </div>
         <div className="actions">{toShowOrNotToShowTheButton()}</div>
         <div className="activeTickets">{active}</div>
         <article className="tickets">
-            { tickets.map(ticket => <TicketCard key={`ticket--${ticket.id}`} ticket={ticket} toggle={toggle} />) }
+            {tickets.map(ticket => <TicketCard key={`ticket--${ticket.id}`} ticket={ticket} toggle={toggle} />)}
         </article>
     </>
 }
